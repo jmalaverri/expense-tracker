@@ -2,13 +2,13 @@
 
 import { useMemo } from 'react';
 import { useExpenses } from '@/hooks/useExpenses';
-import { computeSummary } from '@/lib/utils';
+import { computeSummary, exportToCSV } from '@/lib/utils';
 import SummaryCards from '@/components/SummaryCards';
 import SpendingChart from '@/components/SpendingChart';
 import CategoryBreakdown from '@/components/CategoryBreakdown';
 import RecentExpenses from '@/components/RecentExpenses';
 import Link from 'next/link';
-import { PlusCircle } from 'lucide-react';
+import { PlusCircle, Download } from 'lucide-react';
 
 export default function DashboardPage() {
   const { expenses, isLoaded } = useExpenses();
@@ -40,14 +40,23 @@ export default function DashboardPage() {
             })}
           </p>
         </div>
-        <Link
-          href="/expenses/new"
-          className="flex items-center gap-2 px-4 py-2.5 bg-gradient-to-r from-violet-600 to-indigo-600 text-white font-semibold rounded-xl shadow-md hover:shadow-lg hover:from-violet-700 hover:to-indigo-700 transition-all text-sm"
-        >
-          <PlusCircle className="w-4 h-4" />
-          <span className="hidden sm:inline">Add Expense</span>
-          <span className="sm:hidden">Add</span>
-        </Link>
+        <div className="flex items-center gap-2">
+          <button
+            onClick={() => exportToCSV(expenses)}
+            className="flex items-center gap-2 px-4 py-2.5 bg-white border border-gray-200 text-gray-700 font-semibold rounded-xl shadow-sm hover:shadow-md hover:bg-gray-50 transition-all text-sm"
+          >
+            <Download className="w-4 h-4" />
+            <span className="hidden sm:inline">Export Data</span>
+          </button>
+          <Link
+            href="/expenses/new"
+            className="flex items-center gap-2 px-4 py-2.5 bg-gradient-to-r from-violet-600 to-indigo-600 text-white font-semibold rounded-xl shadow-md hover:shadow-lg hover:from-violet-700 hover:to-indigo-700 transition-all text-sm"
+          >
+            <PlusCircle className="w-4 h-4" />
+            <span className="hidden sm:inline">Add Expense</span>
+            <span className="sm:hidden">Add</span>
+          </Link>
+        </div>
       </div>
 
       {/* Summary cards */}
